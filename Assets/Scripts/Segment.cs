@@ -9,6 +9,11 @@ public class Segment
     public Vector3 end;
     public int width;
     public SegmentType type;
+    public float[] density = new float[3];
+    // 这两个变量用来street生成street的时候用
+    public float verticalLen;
+    public bool expanded=true;
+
     public Segment(int ttimestamp)
     {
         timestamp = ttimestamp;
@@ -56,13 +61,36 @@ public class Segment
         float x2 = s1.end.x, y2 = s1.end.z;
         float x3 = s2.start.x, y3 = s2.start.z;
         float x4 = s2.end.x, y4 = s2.end.z;
+        //if (
+        //    MyUtil.VectorEqual(s1.start, s2.end) ||
+        //    MyUtil.VectorEqual(s1.start, s2.start) ||
+        //    MyUtil.VectorEqual(s1.end, s2.start) ||
+        //    MyUtil.VectorEqual(s1.end, s2.end) ||
+
+        //    (
+        //        PointOnSegment(s2.start, s1) ||
+        //        PointOnSegment(s2.end, s1) ||
+        //        PointOnSegment(s1.start, s2) ||
+        //        PointOnSegment(s1.end, s2)
+        //    )
+        //) {
+
+        //}
+
 
         // 不平行
-        if (System.Math.Abs((y4 - y3) * (x2 - x1) - (y2 - y1) * (x4 - x3))>0.0001f)
+        if (System.Math.Abs((y4 - y3) * (x2 - x1) - (y2 - y1) * (x4 - x3))>0.00001f
+            )
         {
-            if(s1.start == s2.end || s1.start == s2.start || s1.end == s2.start || s1.end == s2.end ||
-               PointOnSegment(s2.start, s1) || PointOnSegment(s2.end, s1) ||
-               PointOnSegment(s1.start, s2) || PointOnSegment(s1.end, s2))
+            if(
+                MyUtil.VectorEqual(s1.start, s2.end) ||
+                MyUtil.VectorEqual(s1.start, s2.start) ||
+                MyUtil.VectorEqual(s1.end, s2.start) ||
+                MyUtil.VectorEqual(s1.end, s2.end) ||
+                PointOnSegment(s2.start, s1) ||
+                PointOnSegment(s2.end, s1) ||
+                PointOnSegment(s1.start, s2) ||
+                PointOnSegment(s1.end, s2))
             {
                 return new Vector3((float)IntersectionType.UNSAME_LINE_ADJACENT, 0, 0);
             }
@@ -73,9 +101,14 @@ public class Segment
                 return new Vector3(x1 + t1 * (x2 - x1), 0, y1 + t1 * (y2 - y1));
             }
         }
-        else
+        else // 平行
         {
-            if (s1.start == s2.end || s1.start == s2.start || s1.end == s2.start || s1.end == s2.end)
+            if (
+                MyUtil.VectorEqual(s1.start, s2.end) ||
+                MyUtil.VectorEqual(s1.start, s2.start) ||
+                MyUtil.VectorEqual(s1.end, s2.start) ||
+                MyUtil.VectorEqual(s1.end, s2.end)
+                )
             {
                 return new Vector3((float)IntersectionType.SAME_LINE_ADJACENT, 0, 0);
             }
@@ -95,7 +128,7 @@ public class Segment
         float x1 = seg.start.x, y1 = seg.start.z;
         float x2 = seg.end.x, y2 = seg.end.z;
         float x3 = p.x, y3 = p.z;
-        return System.Math.Abs((y2 - y3) * (x1 - x3) - (y1 - y3) * (x2 - x3))<0.01f;
+        return System.Math.Abs((y2 - y3) * (x1 - x3) - (y1 - y3) * (x2 - x3))<0.00000001f;
     }
 
 }
@@ -107,6 +140,7 @@ public enum SegmentType
 }
 public enum IntersectionType
 {
+    ADJACENT = 9999,
     NO_INTERSECTION = 10000,
     UNSAME_LINE_ADJACENT = 10001,
     SAME_LINE_ADJACENT = 10002,

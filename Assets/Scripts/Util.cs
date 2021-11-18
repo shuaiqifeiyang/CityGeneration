@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Util
+public static class MyUtil
 {
-    public static Vector3Int Vector3toVector3Int(Vector3 v)
+    public static bool VectorEqual(Vector3 a, Vector3 b)
     {
-        Vector3Int res = new Vector3Int(
-            (int)System.Math.Round(v[0]),
-            (int)System.Math.Round(v[1]),
-            (int)System.Math.Round(v[2])
-        );
-        return res;
+        return (
+            System.Math.Abs(a.x - b.x) < 0.000001 &&
+            System.Math.Abs(a.y - b.y) < 0.000001 &&
+            System.Math.Abs(a.z - b.z) < 0.000001
+            );
     }
 }

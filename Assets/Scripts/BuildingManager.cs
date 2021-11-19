@@ -38,8 +38,8 @@ public class BuildingManager : MonoBehaviour
                     Quaternion.identity, transform);
                 GameObject buildObj2 = Instantiate(buildingPrefab, curPosition - offset * slopeVertical, 
                     Quaternion.identity, transform);
-                buildObj1.transform.localScale = new Vector3(offset, offset * (1.0f + 5 * desity), offset);
-                buildObj2.transform.localScale = new Vector3(offset, offset * (1.0f + 5 * desity), offset);
+                buildObj1.transform.localScale = new Vector3(offset, offset * (1.0f + 2 * desity * desity + 1 * desity), offset);
+                buildObj2.transform.localScale = new Vector3(offset, offset * (1.0f + 2 * desity * desity + 1 * desity), offset);
                 
                 if (slopeSegment.z < 0)
                 {

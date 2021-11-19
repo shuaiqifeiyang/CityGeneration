@@ -11,6 +11,7 @@ public class GenerationManager : MonoBehaviour
     private List<Segment> segments;
 
     public PathManager pathManager;
+    public BuildingManager buildingManager;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class GenerationManager : MonoBehaviour
         for(int i = 0; i < segments.Count; i++)
         {
             pathManager.DrawSegment(segments[i]);
+            buildingManager.DrawBuilding(segments[i]);
             //yield return new WaitForSeconds(.1f);
             yield return null;
         }

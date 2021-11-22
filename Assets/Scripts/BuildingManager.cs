@@ -21,7 +21,7 @@ public class BuildingManager : MonoBehaviour
         
         if(segment.type == SegmentType.STREET)
         {
-            int buildingSize = randomList[UnityEngine.Random.Range(0, randomList.Count)];
+            int buildingSize = randomList[Random.Range(0, randomList.Count)];
             
             Vector3 slopeSegment = segment.end - segment.start;
             Vector3 slopeVertical = new Vector3(-slopeSegment[2], slopeSegment[1], slopeSegment[0]).normalized;
@@ -33,13 +33,20 @@ public class BuildingManager : MonoBehaviour
             for (int i = 1; i <= buildingSize; i++)
             {
                 curPosition += i * slopeSegment;
+                Debug.Log(curPosition);
+                Debug.Log(offset);
+                float localY = offset * (1.0f + 2 * desity * desity + 1 * desity) / 2.0f;
                 
-                GameObject buildObj1 = Instantiate(buildingPrefab, curPosition + offset * slopeVertical, 
-                    Quaternion.identity, transform);
-                GameObject buildObj2 = Instantiate(buildingPrefab, curPosition - offset * slopeVertical, 
-                    Quaternion.identity, transform);
-                buildObj1.transform.localScale = new Vector3(offset, offset * (1.0f + 2 * desity * desity + 1 * desity), offset);
-                buildObj2.transform.localScale = new Vector3(offset, offset * (1.0f + 2 * desity * desity + 1 * desity), offset);
+                GameObject buildObj1 = Instantiate(buildingPrefab, 
+                    curPosition + offset * slopeVertical + new Vector3(0f, localY, 0f), Quaternion.identity, transform);
+                GameObject buildObj2 = Instantiate(buildingPrefab, 
+                    curPosition - offset * slopeVertical + new Vector3(0f, localY, 0f), Quaternion.identity, transform);
+
+                
+                buildObj1.transform.localScale = new Vector3(offset * (0.5f + Random.value), 
+                    offset * (1.0f + 2 * desity * desity + 1 * desity), offset * (0.5f + Random.value));
+                buildObj2.transform.localScale = new Vector3(offset * (0.5f + Random.value), 
+                    offset * (1.0f + 2 * desity * desity + 1 * desity), offset * (0.5f + Random.value));
                 
                 if (slopeSegment.z < 0)
                 {

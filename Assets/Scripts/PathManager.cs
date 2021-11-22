@@ -12,6 +12,7 @@ public class PathManager : MonoBehaviour
     }
     public void DrawSegment(Segment segment)
     {
+        //if (segment.type == SegmentType.STREET) return;
         Vector3 startPoint = segment.start, endPoint = segment.end;
         Vector3 pos = new Vector3((startPoint.x+endPoint.x)/2, (startPoint.y + endPoint.y) / 2, (startPoint.z + endPoint.z) / 2);
         float length = (startPoint - endPoint).magnitude;

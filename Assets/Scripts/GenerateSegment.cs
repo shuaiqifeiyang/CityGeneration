@@ -234,6 +234,8 @@ private List<Segment> GenerateInitialSegments()
         {
             return false;
         }
+
+       
         int intersectionCount = 0;
         foreach (Segment seg in resSegments)
         {
@@ -265,6 +267,10 @@ private List<Segment> GenerateInitialSegments()
             {
                 return false;
             }
+        }
+        if (!isValidPoint(cur.start) || !isValidPoint(cur.end))
+        {
+            return false;
         }
         return true;
     }
@@ -421,7 +427,7 @@ private List<Segment> GenerateInitialSegments()
 
     private bool isValidPoint(Vector3 p)
     {
-        return p.x > -swidth / 2 && p.x < swidth / 2 && p.z > -sheight / 2 && p.z < sheight/2 && getPeopleDensity(p)>0; 
+        return p.x > -swidth / 2 && p.x < swidth / 2 && p.z > -sheight / 2 && p.z < sheight/2 && getPeopleDensity(p)>0.05; 
     }
 }
 
